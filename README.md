@@ -1,4 +1,4 @@
-# MMAI 2026 - Phase Aware
+# MMAI 2026 - Phase Aware Multimodal HAR
 
 ## Bio
 
