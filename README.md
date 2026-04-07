@@ -5,9 +5,9 @@
 
 ## Project: Temporal Heterogeneity in Multimodal HAR
 
-We challenge the uniform contribution assumption in multimodal HAR 
-by introducing **temporal heterogeneity**: the informational dominance 
-of RGB vision and IMU modalities shifts systematically across 
+We challenge the uniform contribution assumption in multimodal HAR
+by introducing **temporal heterogeneity**: the informational dominance
+of RGB vision and IMU modalities shifts systematically across
 biomechanical phases within a single action.
 
 ## Key Results (Midterm)
@@ -21,7 +21,7 @@ biomechanical phases within a single action.
 ### Crossover Curve
 ![Crossover Curve](project/midterm/figures/crossover_curve_final.png)
 
-RGB dominates during preparation (80% vs 54%), 
+RGB dominates during preparation (80% vs 54%),
 both modalities converge at acceleration phase (63% each).
 
 ### Changepoint Detection
