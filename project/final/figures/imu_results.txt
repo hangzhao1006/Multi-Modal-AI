@@ -1,0 +1,39 @@
+# IMU Expert Results
+Test accuracy:    0.8233  (82.33%)
+Test samples:     430
+Midterm baseline: 0.6790  (67.90%)
+Delta:            +14.43 percentage points
+
+## Per-class accuracy (sorted ascending)
+  c 4  acc=0.250  n=16  right arm throw
+  c18  acc=0.438  n=16  right hand knock
+  c16  acc=0.500  n=16  tennis serve
+  c19  acc=0.562  n=16  right hand catch
+  c17  acc=0.625  n=16  two hand push
+  c12  acc=0.688  n=16  front boxing
+  c14  acc=0.688  n=16  tennis right hand forehand
+  c20  acc=0.688  n=16  right hand pickup and throw
+  c 0  acc=0.750  n=16  right arm swipe to the left
+  c 7  acc=0.750  n=16  right hand draw x
+  c 6  acc=0.812  n=16  basketball shooting
+  c13  acc=0.812  n=16  baseball swing
+  c 1  acc=0.875  n=16  right arm swipe to the right
+  c15  acc=0.875  n=16  arm curl
+  c10  acc=0.938  n=16  draw triangle
+  c 2  acc=1.000  n=16  right hand wave
+  c 3  acc=1.000  n=16  two hand front clap
+  c 5  acc=1.000  n=16  cross arms in the chest
+  c 8  acc=1.000  n=16  right hand draw circle CW
+  c 9  acc=1.000  n=16  right hand draw circle CCW
+  c11  acc=1.000  n=16  bowling
+  c21  acc=1.000  n=16  jogging
+  c22  acc=1.000  n=15  walking
+  c23  acc=1.000  n=16  sit to stand
+  c24  acc=1.000  n=16  stand to sit
+  c25  acc=1.000  n=16  forward lunge
+  c26  acc=1.000  n=15  squat
+
+## Worst 3 classes (these will benefit most from vision fusion)
+  c4: right arm throw  acc=0.250
+  c18: right hand knock  acc=0.438
+  c16: tennis serve  acc=0.500
