@@ -1,0 +1,18 @@
+# Phase Arbitrator — Untrained Baseline
+
+Module params: 2,881
+Output shape:  (B, 12)
+Output range:  α ∈ [0, 1] (Sigmoid)
+
+## Throw sample physical features (sanity check)
+  |a(t)|       min=0.000  max=5.401  mean=1.098
+  d2|a|/dt2    min=-3.864  max=2.960
+  energy_rate  min=-20.186  max=13.649
+
+## Untrained α(t) stats per demo action (expect ~0.5 — random weights)
+  a5  throw (IMU weak — should ↑α)
+           mean=0.528  min=0.526  max=0.529
+  a22  walking (IMU strong — should ↓α)
+           mean=0.527  min=0.527  max=0.529
+  a27  squat (IMU strong — should ↓α)
+           mean=0.528  min=0.527  max=0.528

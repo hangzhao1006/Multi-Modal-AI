@@ -119,7 +119,20 @@ Hang 跑了**两个 vision baseline**，结果差距非常大：
     - Drive `pgmoe_ckpt/`：`imu_classifier_best.pt`, `imu_expert.pt`, 两张 png
     - Drive `pgmoe_ckpt/backups/`：带 acc 标签的备份副本（防丢）
     - Repo `project/final/figures/`：`imu_training_curve.png`, `imu_confusion_matrix.png`, `imu_results.txt`
-- [ ] `phase_arbitrator.py`：IMU 物理特征 → α(t)（**下一步**）
+- [x] **`phase_arbitrator.py` 已写完**（2026-05-11）：
+  - 模块：`PhaseFeatures` (no params) + `PhaseEncoder` (3→64→32) + `ArbitratorMLP` (32→16→1, Sigmoid)
+  - 总参数仅 **2,881**（相对 IMU expert 的 1.5M 极轻）
+  - 输出 `(B, T_i=12)`，α ∈ [0, 1] per IMU token
+- [x] **物理特征可视化（throw sample）**：教科书级 phase 结构
+  - timestep 0–50：prep 阶段，|a|≈1
+  - timestep 50–70：pre-accel，|a| 升到 2
+  - **timestep 75–80：impact**，|a| 尖峰 5.4，d²|a|/dt² ±4 剧烈摆动，energy_rate 从 +14 跌到 -20
+  - timestep 85–130：follow-through 衰减
+  - 完美对应 PG-MoE 假设的 5 阶段结构，是 paper method 章节的核心 figure
+- [x] **未训练 α(t) baseline**：三个动作（throw / walking / squat）α 都在 0.527 附近，完全水平
+  - 符合预期（Sigmoid of random ≈ 0.5）
+  - 联合训练后应该出现 phase-dependent 起伏，特别是 throw 在 impact 时刻 α 应升高
+  - 这两张图前后对比将是 paper 的杀手图
 
 ### 接下来在 Colab 怎么跑
 
