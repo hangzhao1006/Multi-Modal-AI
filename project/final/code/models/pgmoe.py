@@ -15,7 +15,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from .imu_expert import IMUExpert
+from .imu_expert import IMUExpert, IMUClassifier
 from .phase_arbitrator import PhaseArbitrator
 from .cross_attention import CrossModalAttention
 
@@ -127,3 +127,50 @@ class PGMoE(nn.Module):
     def load_pretrained_imu(self, ckpt_path, device="cpu"):
         sd = torch.load(ckpt_path, map_location=device)
         self.imu_expert.load_state_dict(sd)
+
+
+class PGMoELate(nn.Module):
+    """Phase-aware LATE FUSION variant of PG-MoE.
+
+    Motivation: feature-level fusion under-performed Hang's plain late fusion
+    (92%). Reason: random-init VisionProjector + cross-attention diluted the
+    pretrained 89.3% vision signal. Instead, we keep each modality's full
+    classifier intact, and use alpha to weight their LOGITS:
+
+        final_logits = alpha * v_logits + (1 - alpha) * i_logits
+
+    Components:
+      - IMUClassifier (loaded with full pretrained 82.33% weights)
+      - VisionHead    (small trainable head on top of cached vision tokens)
+      - PhaseArbitrator (raw IMU -> alpha, same as before)
+
+    No cross-attention, no feature-level gating. Just phase-aware late fusion.
+    """
+
+    def __init__(self, T_i=12, d_model=256, num_classes=27, dropout=0.2):
+        super().__init__()
+        self.imu_classifier = IMUClassifier(num_classes=num_classes, d_model=d_model)
+        self.vision_head = nn.Sequential(
+            nn.LayerNorm(d_model),
+            nn.Dropout(dropout),
+            nn.Linear(d_model, num_classes),
+        )
+        self.phase_arbitrator = PhaseArbitrator(T_i=T_i)
+
+    def forward(self, vision_tokens, imu, return_alpha=False, return_branch_logits=False):
+        i_logits = self.imu_classifier(imu)             # (B, 27)
+        v_pooled = vision_tokens.mean(dim=1)            # (B, d)
+        v_logits = self.vision_head(v_pooled)           # (B, 27)
+        alpha = self.phase_arbitrator(imu)              # (B, T_i)
+        a = alpha.mean(dim=1, keepdim=True)             # (B, 1)
+        final = a * v_logits + (1.0 - a) * i_logits     # (B, 27)
+        if return_branch_logits:
+            return final, alpha, v_logits, i_logits
+        if return_alpha:
+            return final, alpha
+        return final
+
+    def load_pretrained_imu_classifier(self, ckpt_path, device="cpu"):
+        """Load the full IMUClassifier state_dict (encoder + LayerNorm + head)."""
+        sd = torch.load(ckpt_path, map_location=device)
+        self.imu_classifier.load_state_dict(sd)
