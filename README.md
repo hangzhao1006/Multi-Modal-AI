@@ -1,6 +1,7 @@
 # 🧠 Multi-Modal AI — MAS.S60 / 6.S985
 
-> **Hang Zhao** · Harvard GSD  
+> **Hang Zhao** · Harvard 
+> **Xiaoyang Wu** · Harvard 
 > Spring 2026 · MIT / Harvard Multimodal AI Course
 
 A living portfolio of weekly explorations, homework assignments, and the final research project in multimodal AI.
@@ -13,51 +14,91 @@ A living portfolio of weekly explorations, homework assignments, and the final r
 Multi-Modal-AI/
 │
 ├── README.md                          ← You are here
+├── LICENSE
+├── pgmoe_plan.md                      ← Final project planning doc
 │
 ├── assignments/
-│   ├── hw1_multimodal_basics/
-│   │   ├── README.md
-│   │   └── ...
-│   ├── hw2_fusion_methods/
-│   │   ├── README.md
-│   │   └── ...
-│   ├── hw3_lora_qwen/
-│   │   ├── README.md
-│   │   └── ...
-│   ├── hw4_grpo_vlm/
-│   │   ├── README.md
-│   │   └── ...
-│   └── hw5_.../
-│       ├── README.md
-│       └── ...
+│   ├── hw1_multimodal_basics/Hang_hw1.ipynb
+│   ├── hw2_fusion_methods/Hang_hw2.ipynb
+│   ├── hw3_lora_qwen/Hang_hw3.ipynb
+│   ├── hw4_grpo_vlm/Hang_hw4.ipynb
+│   └── hw5_agent/Hang_hw5.ipynb
 │
-├── reading_assignments/
-│   └── ...
+├── midterm/
+│   ├── README.md
+│   ├── code/
+│   │   ├── 01_baseline_imu_skeleton.py
+│   │   ├── 02_rgb_extraction.py
+│   │   ├── 03_rgb_resnet3d.py
+│   │   ├── 04_crossover_curve.py
+│   │   ├── 05_changepoint_detection.py
+│   │   ├── 06_temporal_alignment.py
+│   │   ├── mmai_pilot.ipynb / mmai_pilot.py
+│   │   └── 6.808 Lab 4 - Gesture Recognition via FMCW.ipynb
+│   ├── figures/                       ← crossover curves, changepoints, etc.
+│   └── report/MMAI_midter_report.pdf
 │
 └── final_project/
     ├── README.md                      ← Project overview & results
-    ├── code/
-    │   ├── 01_qwen_token_extraction.py
-    │   ├── 02_qwen_token_visualization.py
-    │   ├── 03_qwen_vision_classification.py
-    │   ├── 04_resnet3d_vision_expert.py
-    │   ├── 05_resnet3d_visualization.py
-    │   ├── 06_imu_expert_verification.py
-    │   ├── 07_pgmoe_full.py
-    │   ├── 08_fusion_experiments.py
-    │   └── 09_presentation_figures.py
-    ├── figures/
-    │   ├── architecture_diagram.png
-    │   ├── gradcam.png
-    │   ├── tsne.png
-    │   ├── per_class_table.png
-    │   ├── token_activation.png
-    │   ├── temporal_dynamics.png
-    │   └── patch_anatomy.png
-    ├── report/
-    │   └── PG_MoE_Final_Report.pdf
-    └── presentation/
-        └── PG_MoE_Presentation.pptx
+    ├── train.py                       ← PG-MoE training entrypoint
+    ├── train_imu.py                   ← IMU expert training
+    ├── evaluate.py                    ← Eval / metrics
+    ├── save_phase_cell.py
+    ├── speaker_script.md              ← 4-slide presentation script
+    │
+    ├── models/
+    │   ├── __init__.py
+    │   ├── vision_expert.py           ← ResNet3D backbone
+    │   ├── imu_expert.py              ← Deep 1D-CNN
+    │   ├── phase_arbitrator.py        ← Physics-driven α(t) gate
+    │   ├── cross_attention.py         ← Cross-attn fusion baseline
+    │   ├── pgmoe.py                   ← Full PG-MoE model
+    │   └── train_loops.py
+    │
+    ├── notebooks/
+    │   ├── hang/                      ← Vision side (Qwen + ResNet3D)
+    │   │   ├── 01_qwen_token_extraction.py
+    │   │   ├── 02_qwen_token_visualization.py
+    │   │   ├── 03_qwen_vision_classification.py
+    │   │   ├── 04_resnet3d_vision_expert.py
+    │   │   ├── 05_resnet3d_visualization.py
+    │   │   ├── 08_fusion_experiments.py
+    │   │   ├── 09_presentation_figures.py
+    │   │   └── vision_analysis_figures.ipynb
+    │   ├── xiaoyang/                  ← IMU side + phase arbitrator
+    │   │   ├── train_imu.ipynb
+    │   │   ├── build_phase_arbitrator.ipynb
+    │   │   ├── save_imu_results.ipynb
+    │   │   └── xiaoyang_slides_figures.ipynb
+    │   └── joint/                     ← Combined PG-MoE experiments
+    │       ├── train_pgmoe.ipynb
+    │       ├── train_pgmoe_resnet3d.ipynb
+    │       └── pgmoe_analysis_figures.ipynb
+    │
+    ├── figures/                       ← Result plots
+    │   ├── Grad-CAM_ResNet3D_attention.png
+    │   ├── t-SNE_ResNet3D_feature_space.png
+    │   ├── vision_token_activation_snapshots.png
+    │   ├── temporal_feature_dynamics.png
+    │   ├── phase_features_throw.png
+    │   ├── alpha_untrained.png
+    │   ├── imu_confusion_matrix.png
+    │   ├── imu_training_curve.png
+    │   ├── pre_class_modality_complementarity.png
+    │   ├── imu_results.txt
+    │   └── phase_results.txt
+    │
+    ├── reports/                       ← Final write-up
+    ├── presentations/MMAI.pdf
+    │
+    └── process/                       ← Working history (not the final deliverable)
+        ├── devlog.md
+        ├── handoff_to_hang.md
+        ├── code/                      ← Earlier copies of train/eval scripts
+        ├── checkpoints/               ← Trained .pt weights
+        │   ├── imu_classifier_best.pt
+        │   └── imu_expert.pt
+        └── devlog/                    ← Screenshots & devlog images
 ```
 
 ---
@@ -164,13 +205,19 @@ pip install torch torchvision transformers scipy scikit-learn matplotlib numpy o
 ### Run
 ```bash
 # 1. Extract vision tokens (requires A100 GPU)
-python final_project/code/01_qwen_token_extraction.py
+python final_project/notebooks/hang/01_qwen_token_extraction.py
 
-# 2. Train vision expert
-python final_project/code/04_resnet3d_vision_expert.py
+# 2. Train vision expert (ResNet3D)
+python final_project/notebooks/hang/04_resnet3d_vision_expert.py
 
-# 3. Run PG-MoE pipeline
-python final_project/code/07_pgmoe_full.py
+# 3. Train IMU expert
+python final_project/train_imu.py
+
+# 4. Train full PG-MoE
+python final_project/train.py
+
+# 5. Evaluate
+python final_project/evaluate.py
 ```
 
 ---

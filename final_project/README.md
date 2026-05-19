@@ -1,6 +1,8 @@
 # PG-MoE: Phase-Gated Mixture-of-Experts for Multimodal HAR
 
-> **Hang Zhao** (Harvard GSD) & **Xiaoyang Wu** (MIT)  
+> **Hang Zhao** · Harvard 
+> **Xiaoyang Wu** · Harvard 
+
 > MAS.S60 / 6.S985 — Multimodal AI — Spring 2026
 
 ---
